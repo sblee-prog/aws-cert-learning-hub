@@ -213,11 +213,10 @@ aws-cert-learning-hub/
 
 ## 🔜 Next Steps
 
-1. **Web Crawler** — Add AWS FAQ pages (S3, EC2, VPC, Lambda, RDS) as RAG source
-2. **Learning Dashboard** — Track domain-wise accuracy per user
-3. **Streaming Responses** — Real-time token streaming for better UX
-4. **CLF-C02 / AIF-C01** — Add question data for other certifications
-5. **GitHub Actions CI/CD** — Automate S3 deployment on push
+1. **Learning Dashboard** — Track domain-wise accuracy per user
+2. **Streaming Responses** — Real-time token streaming for better UX
+3. **CLF-C02 / AIF-C01** — Add question data for other certifications
+4. **GitHub Actions CI/CD** — Automate S3 deployment on push
 
 ## 📝 License
 
