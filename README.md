@@ -202,6 +202,7 @@ aws-cert-learning-hub/
 | Knowledge Base | `L2I29PW3Z9` (S3 Vectors) |
 | Region | ap-northeast-2 (Seoul) |
 | Account | 797240615245 |
+| Web Deployment | https://d4yq42aqslas7.cloudfront.net/ |
 
 ## 🔜 Next Steps
 
