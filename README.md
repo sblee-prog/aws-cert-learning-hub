@@ -1,5 +1,7 @@
 # AWS Certification Learning Hub 🎓
 
+🔗 **Live Demo:** [https://d4yq42aqslas7.cloudfront.net](https://d4yq42aqslas7.cloudfront.net/)
+
 AI Tutor-powered AWS certification study platform using Bedrock RAG + Serverless architecture
 
 ## 📌 Overview
@@ -10,6 +12,7 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 **Key Features:**
 - 📝 500+ SAA-C03 Practice Questions with explanations
 - 🤖 AI Tutor chatbot (Bedrock RAG + Claude) — answers based on official AWS docs
+- 📚 RAG sources: Exam Guide + Well-Architected Framework + 10 AWS Service FAQs
 - 🌙 Dark / Light mode
 - 🌐 Korean / English bilingual support
 - 📊 Multiple study modes (Quick Practice, Domain Practice, Mock Exam, Custom)
@@ -68,6 +71,10 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
                                               │  │  └ saa-questions-   │  │       │
                                               │  │      rag.txt (424Q) │  │       │
                                               │  ├─────────────────────┤  │       │
+                                              │  │ faqs/               │  │       │
+                                              │  │  └ 10 AWS Service   │  │       │
+                                              │  │    FAQs (S3,EC2,..) │  │       │
+                                              │  ├─────────────────────┤  │       │
                                               │  │ S3 Vectors          │  │       │
                                               │  │ (Titan Embeddings)  │  │       │
                                               │  └─────────────────────┘  │       │
@@ -102,7 +109,7 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 - [x] Dark / Light mode
 - [x] Top navigation bar with settings
 - [ ] Learning dashboard (domain-wise accuracy tracking)
-- [ ] Web Crawler source (AWS FAQ pages)
+- [x] AWS Service FAQ data (10 services — scraped & uploaded to S3)
 - [ ] CLF-C02 / AIF-C01 question data
 - [ ] Streaming responses for AI Tutor
 
@@ -119,7 +126,7 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 | RAG | Bedrock Knowledge Base + S3 Vectors |
 | Embeddings | Titan Text Embeddings v2 |
 | Vector Store | S3 Vectors (cost-optimized, upgradable to OpenSearch Serverless) |
-| RAG Source | S3 (PDF + TXT) + Metadata filtering by exam type |
+| RAG Source | S3 (PDF + TXT + FAQ) + Metadata filtering by exam type |
 
 ## 📁 Project Structure
 
@@ -169,6 +176,7 @@ aws-cert-learning-hub/
 | 2026-07-24 | Frontend: Korean/English bilingual toggle (i18n) |
 | 2026-07-24 | Frontend: Dark/Light mode + Top navigation bar |
 | 2026-07-24 | Lambda: Multi-language system prompt (ko/en) |
+| 2026-07-24 | RAG source expanded: 10 AWS Service FAQs (S3, EC2, VPC, Lambda, RDS, ELB, CloudFront, IAM, SQS, DynamoDB) |
 
 ## 💰 Estimated Monthly Cost
 
@@ -197,12 +205,11 @@ aws-cert-learning-hub/
 
 | Component | Resource |
 |-----------|----------|
-| Frontend | CloudFront Distribution `EZ9XCA2AHSV5C` |
+| Frontend | CloudFront Distribution `EZ9XCA2AHSV5C` — [https://d4yq42aqslas7.cloudfront.net](https://d4yq42aqslas7.cloudfront.net/) |
 | Backend API | `https://2ctiq7wune.execute-api.ap-northeast-2.amazonaws.com/prod` |
 | Knowledge Base | `L2I29PW3Z9` (S3 Vectors) |
 | Region | ap-northeast-2 (Seoul) |
 | Account | 797240615245 |
-| Web Deployment | https://d4yq42aqslas7.cloudfront.net/ |
 
 ## 🔜 Next Steps
 
