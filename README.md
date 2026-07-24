@@ -1,13 +1,20 @@
 # AWS Certification Learning Hub 🎓
 
-AI Tutor 기반 AWS 자격증 학습 플랫폼 — Bedrock RAG + Serverless Architecture
+AI Tutor-powered AWS certification study platform using Bedrock RAG + Serverless architecture
 
 ## 📌 Overview
 
 AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 문제 풀이 + AI Tutor 챗봇이 AWS 공식 문서를 근거로 개념을 설명해주는 구조.
 
-## Architecture
+**Key Features:**
+- 📝 500+ SAA-C03 Practice Questions with explanations
+- 🤖 AI Tutor chatbot (Bedrock RAG + Claude) — answers based on official AWS docs
+- 🌙 Dark / Light mode
+- 🌐 Korean / English bilingual support
+- 📊 Multiple study modes (Quick Practice, Domain Practice, Mock Exam, Custom)
+
+## 🏗️ Architecture
 
 ```
                             ┌─────────────────────────────────────────────────────┐
@@ -38,13 +45,13 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
               ┌────────────────────┐          ┌───────────────────────────┐       │
               │     DynamoDB       │          │     Amazon Bedrock        │       │
               │ CertHub-Questions  │          │  ┌─────────────────────┐  │       │
-              │    -SAA-C03        │          │  │  Claude (LLM)       │  │       │
-              │  (534 questions)   │          │  │  + System Prompt    │  │       │
+              │    -SAA-C03        │          │  │  Claude 3.5 Sonnet  │  │       │
+              │  (534 questions)   │          │  │  (Inference Profile)│  │       │
               └────────────────────┘          │  └─────────────────────┘  │       │
                                               │  ┌─────────────────────┐  │       │
                                               │  │  Knowledge Base     │  │       │
-                                              │  │  (RAG Retrieval)    │  │       │
-                                              │  │  + Metadata Filter  │  │       │
+                                              │  │  (RAG + Metadata    │  │       │
+                                              │  │   Filter by exam)   │  │       │
                                               │  └──────────┬──────────┘  │       │
                                               └─────────────┼─────────────┘       │
                                                             │                     │
@@ -85,41 +92,45 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 
 ## ✅ Features
 
-- [x] 퀴즈 엔진 (Quick Practice / Domain Practice / Mock Exam / Custom)
-- [x] SAA-C03 문제 데이터 파이프라인 (535문제, 424 complete)
-- [x] Serverless 백엔드 (Lambda + API Gateway + DynamoDB)
-- [x] 정적 호스팅 (S3 + CloudFront)
-- [x] Bedrock Knowledge Base (RAG) — S3 Vectors
-- [ ] AI Tutor 챗봇 (Bedrock Claude + RAG)
-- [ ] 한국어 UI 완성
-- [ ] 학습 대시보드 (도메인별 정답률)
-- [ ] CLF-C02 / AIF-C01 문제 데이터 추가
-- [ ] Web Crawler 소스 추가 (AWS FAQ 페이지)
+- [x] Quiz engine (Quick Practice / Domain Practice / Mock Exam / Custom)
+- [x] SAA-C03 data pipeline (535 questions parsed, 424 complete with explanations)
+- [x] Serverless backend (Lambda + API Gateway + DynamoDB)
+- [x] Static hosting (S3 + CloudFront)
+- [x] Bedrock Knowledge Base (RAG) — S3 Vectors + metadata filtering
+- [x] AI Tutor chatbot (Bedrock Claude + RAG) — floating panel UI
+- [x] Bilingual support (Korean / English toggle)
+- [x] Dark / Light mode
+- [x] Top navigation bar with settings
+- [ ] Learning dashboard (domain-wise accuracy tracking)
+- [ ] Web Crawler source (AWS FAQ pages)
+- [ ] CLF-C02 / AIF-C01 question data
+- [ ] Streaming responses for AI Tutor
 
 ## 🛠️ Tech Stack
 
 | Layer | Service |
 |-------|---------|
-| Frontend | HTML + CSS + JS (vanilla) |
-| Hosting | S3 + CloudFront |
-| Backend | AWS Lambda (Python 3.14) |
+| Frontend | HTML + CSS + JS (vanilla, single-page) |
+| Hosting | S3 + CloudFront (CDN + SSL) |
+| Backend | AWS Lambda (Python 3.14) × 2 functions |
 | API | API Gateway (REST) |
 | Database | DynamoDB (on-demand) |
-| AI/ML | Amazon Bedrock (Claude) + Knowledge Base |
-| Vector Store | S3 Vectors |
+| AI/ML | Amazon Bedrock (Claude 3.5 Sonnet via Inference Profile) |
+| RAG | Bedrock Knowledge Base + S3 Vectors |
 | Embeddings | Titan Text Embeddings v2 |
-| RAG Source | S3 (PDF + TXT) + Web Crawler (planned) |
+| Vector Store | S3 Vectors (cost-optimized, upgradable to OpenSearch Serverless) |
+| RAG Source | S3 (PDF + TXT) + Metadata filtering by exam type |
 
 ## 📁 Project Structure
 
 ```
 aws-cert-learning-hub/
 ├── frontend/
-│   └── index.html                    # Main app (single HTML)
+│   └── index.html                    # Main app (single HTML, 46KB)
 ├── backend/
 │   └── lambda/
 │       ├── question_service.py       # Quiz API (GET /questions, POST /submit)
-│       └── chat_service.py           # AI Tutor API (POST /chat) — TBD
+│       └── chat_service.py           # AI Tutor API (POST /chat)
 ├── data-pipeline/
 │   ├── parse_saa_questions.py        # TXT solution parser
 │   ├── parse_pdf_options.py          # PDF options extractor
@@ -131,24 +142,40 @@ aws-cert-learning-hub/
 └── README.md
 ```
 
+## 🔌 API Endpoints
+
+| Method | Path | Lambda | Description |
+|--------|------|--------|-------------|
+| GET | `/questions` | CertHub-QuestionService | Fetch random questions (params: count, domain, mode) |
+| POST | `/submit` | CertHub-QuestionService | Grade answers, return score + explanations |
+| POST | `/chat` | CertHub-ChatService | AI Tutor — RAG-based Q&A (params: message, exam, lang) |
+
+**Base URL:** `https://2ctiq7wune.execute-api.ap-northeast-2.amazonaws.com/prod`
+
 ## 📊 Progress Log
 
 | Date | Milestone |
 |------|-----------|
-| 2026-07-18 | 프론트엔드 완성 + S3/CloudFront 배포 |
-| 2026-07-19 | Lambda + API Gateway 백엔드 완성 |
-| 2026-07-20 | DynamoDB 데이터 파이프라인 완성 (534 items) |
-| 2026-07-22 | AIF 배지 이미지 수정 + 재배포 |
-| 2026-07-23 | Bedrock Knowledge Base 생성 (S3 Vectors) |
-| 2026-07-23 | RAG 소스 업로드 (Exam Guide + WAF PDF + 424문제 텍스트) |
-| 2026-07-24 | RAG 테스트 성공 (Claude 3.5 Sonnet) |
+| 2026-07-18 | Frontend complete + S3/CloudFront deployment |
+| 2026-07-19 | Lambda + API Gateway backend complete |
+| 2026-07-20 | DynamoDB data pipeline complete (534 items) |
+| 2026-07-22 | AIF badge image fix + redeployment |
+| 2026-07-23 | AI Tutor project started — S3 knowledge bucket + RAG source upload |
+| 2026-07-24 | Bedrock Knowledge Base (S3 Vectors) created + synced |
+| 2026-07-24 | CertHub-ChatService Lambda created + IAM (Bedrock + Inference Profile) |
+| 2026-07-24 | API Gateway `/chat` endpoint deployed |
+| 2026-07-24 | AI Tutor API test successful (Claude 3.5 Sonnet via RAG) |
+| 2026-07-24 | Frontend: Floating chatbot UI added |
+| 2026-07-24 | Frontend: Korean/English bilingual toggle (i18n) |
+| 2026-07-24 | Frontend: Dark/Light mode + Top navigation bar |
+| 2026-07-24 | Lambda: Multi-language system prompt (ko/en) |
 
 ## 💰 Estimated Monthly Cost
 
 | Service | Cost |
 |---------|------|
-| Bedrock (Claude) | ~$1-5 |
-| S3 Vectors | ~$1-5 |
+| Bedrock (Claude 3.5 Sonnet) | ~$1-5 |
+| S3 Vectors (vector store) | ~$1-5 |
 | DynamoDB (on-demand) | ~$0.5 |
 | Lambda + API Gateway | ~$0.1 |
 | S3 + CloudFront | ~$0.05 |
@@ -156,16 +183,33 @@ aws-cert-learning-hub/
 
 ## 🔑 Key Design Decisions
 
-1. **S3 Vectors over OpenSearch Serverless** — 비용 최적화 ($5/월 vs $172/월), 소규모 프로젝트에 충분한 성능
-2. **Metadata filtering** — 향후 다른 자격증(CLF, AIF) 추가 시 `exam` 필드로 필터링, KB 재생성 불필요
-3. **Vanilla HTML (no React)** — Node.js 설치 불가 환경 대응, S3 정적 호스팅에 최적
-4. **Serverless only** — EC2 없이 완전 서버리스, 트래픽 없으면 비용 $0에 수렴
+| Decision | Rationale |
+|----------|-----------|
+| **S3 Vectors over OpenSearch Serverless** | Cost optimization ($5/mo vs $172/mo), sufficient for small-scale project |
+| **Metadata filtering** | Future-proof — add CLF/AIF exams without recreating KB, filter by `exam` field |
+| **Vanilla HTML (no React)** | Node.js install blocked on work laptop, single HTML is S3-deploy friendly |
+| **Serverless only** | No EC2 — cost approaches $0 with zero traffic |
+| **Inference Profile** | Required for Claude 3.5 Sonnet v2 in ap-northeast-2, APAC prefix `apac.*` |
+| **Separate Lambda functions** | Quiz vs Chat have different timeout (3s vs 30s) and IAM needs |
+| **i18n with data attributes** | Clean separation of content from logic, easy to add more languages |
 
 ## 🚀 Deployment
 
-- **Frontend**: CloudFront Distribution `EZ9XCA2AHSV5C`
-- **Backend**: API Gateway `https://2ctiq7wune.execute-api.ap-northeast-2.amazonaws.com/prod`
-- **Region**: ap-northeast-2 (Seoul)
+| Component | Resource |
+|-----------|----------|
+| Frontend | CloudFront Distribution `EZ9XCA2AHSV5C` |
+| Backend API | `https://2ctiq7wune.execute-api.ap-northeast-2.amazonaws.com/prod` |
+| Knowledge Base | `L2I29PW3Z9` (S3 Vectors) |
+| Region | ap-northeast-2 (Seoul) |
+| Account | 797240615245 |
+
+## 🔜 Next Steps
+
+1. **Web Crawler** — Add AWS FAQ pages (S3, EC2, VPC, Lambda, RDS) as RAG source
+2. **Learning Dashboard** — Track domain-wise accuracy per user
+3. **Streaming Responses** — Real-time token streaming for better UX
+4. **CLF-C02 / AIF-C01** — Add question data for other certifications
+5. **GitHub Actions CI/CD** — Automate S3 deployment on push
 
 ## 📝 License
 
