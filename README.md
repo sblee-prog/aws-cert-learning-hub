@@ -4,9 +4,10 @@
 
 AI Tutor-powered AWS certification study platform using Bedrock RAG + Serverless architecture
 
+
 ## 📌 Overview
 
-AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
+비개발 직군(DGR, AM, BDM 등)의 AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 문제 풀이 + AI Tutor 챗봇이 AWS 공식 문서를 근거로 개념을 설명해주는 구조.
 
 **Key Features:**
@@ -108,6 +109,7 @@ AWS 자격증 취득을 돕는 웹 기반 학습 플랫폼.
 - [x] Bilingual support (Korean / English toggle)
 - [x] Dark / Light mode
 - [x] Top navigation bar with settings
+- [x] Resizable chatbot panel (drag to resize)
 - [ ] Learning dashboard (domain-wise accuracy tracking)
 - [x] AWS Service FAQ data (10 services — scraped & uploaded to S3)
 - [ ] CLF-C02 / AIF-C01 question data
@@ -177,6 +179,7 @@ aws-cert-learning-hub/
 | 2026-07-24 | Frontend: Dark/Light mode + Top navigation bar |
 | 2026-07-24 | Lambda: Multi-language system prompt (ko/en) |
 | 2026-07-24 | RAG source expanded: 10 AWS Service FAQs (S3, EC2, VPC, Lambda, RDS, ELB, CloudFront, IAM, SQS, DynamoDB) |
+| 2026-07-24 | Frontend: Resizable chatbot panel (drag corner to resize) |
 
 ## 💰 Estimated Monthly Cost
 
