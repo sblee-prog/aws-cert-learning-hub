@@ -734,6 +734,10 @@ body {
   flex-shrink: 0;
 }
 .option-item.selected .option-letter { background: var(--primary); color: white; }
+[data-theme="dark"] .option-item:hover { background: rgba(129, 140, 248, 0.08); }
+[data-theme="dark"] .option-item.selected { background: rgba(129, 140, 248, 0.16); }
+[data-theme="dark"] .option-letter { background: rgba(167, 139, 250, 0.2); }
+[data-theme="dark"] .option-item.selected .option-letter { background: var(--primary); color: #0f172a; }
 .nav-bar { display: flex; justify-content: space-between; margin-top: 24px; }
 .btn {
   padding: 10px 22px;
